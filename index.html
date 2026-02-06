@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Snake Game</title>
+    <style>
+        body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #2c3e50; color: white; font-family: sans-serif; flex-direction: column; }
+        canvas { border: 5px solid #ecf0f1; box-shadow: 0 0 20px rgba(0,0,0,0.5); background-color: #000; }
+        .score { font-size: 24px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+    <div class="score">점수: <span id="scoreVal">0</span></div>
+    <canvas id="snakeGame" width="400" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById("snakeGame");
+        const ctx = canvas.getContext("2d");
+        const scoreElement = document.getElementById("scoreVal");
+
+        const box = 20; // 한 칸의 크기
+        let score = 0;
+        let gameSpeed = 100;
+
+        // 뱀 초기 위치 (중앙)
+        let snake = [{ x: 9 * box, y: 10 * box }];
+        
+        // 먹이 초기 위치
+        let food = {
+            x: Math.floor(Math.random() * 19 + 1) * box,
+            y: Math.floor(Math.random() * 19 + 1) * box
+        };
+
+        let d; // 방향 제어 변수
+
+        document.addEventListener("keydown", direction);
+
+        function direction(event) {
+            let key = event.keyCode;
+            // 반대 방향으로 즉시 꺾는 것 방지
+            if(key == 37 && d != "RIGHT") d = "LEFT";
+            else if(key == 38 && d != "DOWN") d = "UP";
+            else if(key == 39 && d != "LEFT") d = "RIGHT";
+            else if(key == 40 && d != "UP") d = "DOWN";
+        }
+
+        function collision(head, array) {
+            for(let i = 0; i < array.length; i++) {
+                if(head.x == array[i].x && head.y == array[i].y) return true;
+            }
+            return false;
+        }
+
+        function draw
